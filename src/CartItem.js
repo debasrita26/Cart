@@ -10,6 +10,11 @@ class CartItem extends React.Component{
             qty:1,
             img:''
         }
+        // this.increaseQuantity=this.increaseQuantity.bind(this);
+    }
+    //function to increse the quantity in the cart
+    increaseQuantity=() =>{
+        console.log('this.state',this.state);
     }
     render(){
         //object destructuring
@@ -26,18 +31,23 @@ class CartItem extends React.Component{
                     <div style={ {color: '#777'} }>Rs {price}</div>
                     <div style={ {color: '#777'} }>Qty: {qty}</div>
                     <div className='cart-item-actions'>
+                        {/* we will give a camel case and pass a function */}
                         { /* Buttons */}
-                        <img alt="increase" 
-                        className="action-icons" 
-                        src="https://cdn-icons-png.flaticon.com/512/992/992651.png" 
+                        <img 
+                            alt="increase" 
+                            className="action-icons" 
+                            src="https://cdn-icons-png.flaticon.com/512/992/992651.png" 
+                            onClick={this.increaseQuantity}
                         />
-                        <img alt="decrease" 
-                        className="action-icons" 
-                        src="https://cdn-icons-png.flaticon.com/512/992/992683.png" 
+                        <img 
+                            alt="decrease" 
+                            className="action-icons" 
+                            src="https://cdn-icons-png.flaticon.com/512/992/992683.png" 
                         />
-                        <img alt="delete" 
-                        className="action-icons" 
-                        src="https://cdn-icons.flaticon.com/png/512/484/premium/484662.png?token=exp=1651838482~hmac=2fa4719c5dec208e192becf713e9d939" 
+                        <img 
+                            alt="delete" 
+                            className="action-icons" 
+                            src="https://cdn-icons.flaticon.com/png/512/484/premium/484662.png?token=exp=1651838482~hmac=2fa4719c5dec208e192becf713e9d939" 
                         />
                     </div>
                 </div>
