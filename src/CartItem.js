@@ -28,7 +28,7 @@ const styles= {
     //properties
     image:{
         height:110,
-        width:110,
+        width:111,
         //here we have to use camelCase
         borderRadius:4,
         background: '#ccc'
