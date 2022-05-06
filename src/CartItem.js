@@ -11,25 +11,51 @@ class CartItem extends React.Component{
             qty:1,
             img:''
         }
+        this.testing();
         // this.increaseQuantity=this.increaseQuantity.bind(this);
+    }
+
+    testing(){
+        //promise used to stimulate an API call
+        const promise=new Promise((resolve,reject)=>{
+            //this function will be called after 5secs
+            setTimeout(()=>{
+                resolve('done')
+            },5000)
+        })
+
+        promise.then(()=>{
+            //setState acts like a synchronous call
+            this.setState({qty:100});
+            console.log('state',this.state);
+        });
     }
     //function to increse the quantity in the cart
     increaseQuantity=() =>{
         
         //this.state.qty+=1;
-        console.log('this.state',this.state);
+        // console.log('this.state',this.state);
         //setState form 1
-        this.setState({
-            qty: this.state.qty+1
+        // this.setState({
+        //     qty: this.state.qty+3
+        // });
+        this.setState((prevState)=>{
+            return{
+                qty: prevState.qty+1
+            }
         });
     }
     decreaseQuantity=() =>{
-        
-        //this.state.qty+=1;
-        // console.log('this.state',this.state);
-        //setState form 1
-        this.setState({
-            qty: this.state.qty-1
+        //we will take the quantity from the this.state
+        const{qty}=this.state;
+        //qty is 0 then we will return
+        if(qty==0){
+        return;
+        }
+        this.setState((prevState)=>{
+            return{
+                qty: prevState.qty-1
+            }
         });
     }
     render(){
