@@ -4,6 +4,7 @@ import React from 'react';
 class CartItem extends React.Component{
     constructor(){
         super();
+        // added the state
         this.state={
             price:999,
             title: 'Mobile Phone',
