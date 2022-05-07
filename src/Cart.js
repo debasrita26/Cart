@@ -2,12 +2,58 @@ import React from 'react';
 import CartItem from './CartItem';
 
 class Cart extends React.Component{
+    constructor(){
+        super();
+        // added the state
+        this.state={
+            products:[
+            {
+                price:999,
+                title: 'Watch',
+                qty:1,
+                img:'',
+                id:1
+            },
+            {
+                price:10000,
+                title: 'Mobile Phone',
+                qty:10,
+                img:'',
+                id:2
+            },
+            {
+                price:40000,
+                title: 'Laptop',
+                qty:5,
+                img:'',
+                id:3 
+            }
+        ]
+    }
+    
+    }
+        // this.testing();
+        // this.increaseQuantity=this.increaseQuantity.bind(this);
     render(){
+        // we can map over this array and use the CartItem component and pass this data as props
+        const {products}=this.state;
         return (
             <div className='cart'>
-                <CartItem />
-                <CartItem />
-                <CartItem />
+                {/* we can specify props by passing attributes */}
+                {/* return the cart item and pass product as props instead of passing each and every field */}
+                {products.map((product)=>{
+                    // each product is given an id to differenciate
+                    return (
+                    <CartItem 
+                        product={product} 
+                        key={product.id}
+                        func={()=> console.log('something')}
+                        isloggedin={ false }
+                        jsx={<h1>Test</h1>}
+                        comp={<CartItem/>}
+                    />
+                    )
+                })}
             </div>
         )
     }

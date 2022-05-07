@@ -2,34 +2,22 @@ import React from 'react';
 
 //CartItem is the class component and we are inheriting from Components class using the extends keyword
 class CartItem extends React.Component{
-    constructor(){
-        super();
-        // added the state
-        this.state={
-            price:999,
-            title: 'Mobile Phone',
-            qty:1,
-            img:''
-        }
-        this.testing();
-        // this.increaseQuantity=this.increaseQuantity.bind(this);
-    }
 
-    testing(){
-        //promise used to stimulate an API call
-        const promise=new Promise((resolve,reject)=>{
-            //this function will be called after 5secs
-            setTimeout(()=>{
-                resolve('done')
-            },5000)
-        })
+    // testing(){
+    //     //promise used to stimulate an API call
+    //     const promise=new Promise((resolve,reject)=>{
+    //         //this function will be called after 5secs
+    //         setTimeout(()=>{
+    //             resolve('done')
+    //         },5000)
+    //     })
 
-        promise.then(()=>{
-            //setState acts like a synchronous call
-            this.setState({qty:100});
-            console.log('state',this.state);
-        });
-    }
+    //     promise.then(()=>{
+    //         //setState acts like a synchronous call
+    //         // this.setState({qty:100});
+    //         console.log('state',this.state);
+    //     });
+    // }
     //function to increse the quantity in the cart
     increaseQuantity=() =>{
         
@@ -59,17 +47,19 @@ class CartItem extends React.Component{
         });
     }
     render(){
+        console.log('this.props',this.props);
         //object destructuring
-        const {price,title,qty}=this.state;
+        const {price,title,qty}=this.props.product;
         //this will return some JsX which will basically describe the UI for that component
         return (
             <div className='cart-item'>
+                {this.props.jsx}
                 <div className='left-block'>
                     {/* we will pass the styles object and . property */}
                     <img style={styles.image} />
                 </div>
                 <div className='right-block'>
-                    <div style={ {fontSize:25} }>{this.state.title}</div>
+                    <div style={ {fontSize:25} }>{title}</div>
                     <div style={ {color: '#777'} }>Rs {price}</div>
                     <div style={ {color: '#777'} }>Qty: {qty}</div>
                     <div className='cart-item-actions'>
