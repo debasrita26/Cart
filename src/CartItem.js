@@ -9,7 +9,8 @@ const CartItem= (props) =>{
             <div className='cart-item'>
                 <div className='left-block'>
                     {/* we will pass the styles object and . property */}
-                    <img style={styles.image} />
+                    {/* img is a property in my product object */}
+                    <img style={styles.image} src={product.img} />
                 </div>
                 <div className='right-block'>
                     <div style={ {fontSize:25} }>{title}</div>
