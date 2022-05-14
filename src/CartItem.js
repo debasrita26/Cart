@@ -69,7 +69,8 @@ class CartItem extends React.Component{
                             alt="increase" 
                             className="action-icons" 
                             src="https://cdn-icons-png.flaticon.com/512/992/992651.png" 
-                            onClick={this.increaseQuantity}
+                            // function will be called whenever user clicks on the button
+                            onClick={()=> this.props.onIncreaseQuantity(this.props.product)}
                         />
                         <img 
                             alt="decrease" 
@@ -80,7 +81,7 @@ class CartItem extends React.Component{
                         <img 
                             alt="delete" 
                             className="action-icons" 
-                            src="https://cdn-icons.flaticon.com/png/512/484/premium/484662.png?token=exp=1651838482~hmac=2fa4719c5dec208e192becf713e9d939" 
+                            src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" 
                         />
                     </div>
                 </div>
