@@ -44,6 +44,29 @@ class Cart extends React.Component{
             products
         })
     }
+    handleDecreaseQuantity= (product) =>{
+        console.log('hey please increse the quantity',product);
+        //we need to get the products from array of products
+        const{products}=this.state;
+        //get the index of a particular product
+        const index=products.indexOf(product);
+
+        if(products[index].qty===0){
+            return;
+        }
+        products[index].qty-=1;
+        this.setState({
+            products
+        })
+    }
+    handleDeleteProduct=(id)=>{
+        const{products}=this.state;
+        // return another array and the arry will contain products whose id will not be the id at its past
+        const items=products.filter((item)=>item.id!==id)
+        this.setState({
+            products:items
+        })
+    }
         // this.testing();
         // this.increaseQuantity=this.increaseQuantity.bind(this);
     render(){
@@ -60,6 +83,8 @@ class Cart extends React.Component{
                         product={product} 
                         key={product.id}
                         onIncreaseQuantity={this.handleIncreaseQuantity}
+                        onDecreaseQuantity={this.handleDecreaseQuantity}
+                        onDeleteProduct={this.handleDeleteProduct}
                     />
                     )
                 })}
