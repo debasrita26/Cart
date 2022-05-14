@@ -40,7 +40,7 @@ class CartItem extends React.Component{
                             alt="delete" 
                             className="action-icons" 
                             src="https://cdn-icons-png.flaticon.com/512/1214/1214428.png" 
-                            onClick={()=>onDeleteProduct(product.id)}
+                            onClick={()=> onDeleteProduct(product.id)}
                         />
                     </div>
                 </div>
