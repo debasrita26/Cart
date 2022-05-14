@@ -1,17 +1,12 @@
 import React from 'react';
 
 //CartItem is the class component and we are inheriting from Components class using the extends keyword
-class CartItem extends React.Component{
-
-    render(){
-        console.log('this.props',this.props);
-        //object destructuring
-        const {price,title,qty}=this.props.product;
-        const {product,onIncreaseQuantity,onDecreaseQuantity,onDeleteProduct}=this.props;
+const CartItem= (props) =>{
+        const {price,title,qty}=props.product;
+        const {product,onIncreaseQuantity,onDecreaseQuantity,onDeleteProduct}=props;
         //this will return some JsX which will basically describe the UI for that component
         return (
             <div className='cart-item'>
-                {this.props.jsx}
                 <div className='left-block'>
                     {/* we will pass the styles object and . property */}
                     <img style={styles.image} />
@@ -46,7 +41,6 @@ class CartItem extends React.Component{
                 </div>
             </div>
         );
-    }
 }
 
 //to style an object is created
