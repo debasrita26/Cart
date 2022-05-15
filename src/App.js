@@ -46,6 +46,10 @@ class App extends React.Component{
 
     this.db
       .collection('products')
+      // .where('price','==',10000)
+      // .where('title','==','Mobile Phone')
+      //to sort the data acc to price
+      .orderBy('price','asc')
       //callback will be fired when onSnapshot will be called
       .onSnapshot((snapshot)=>{
             console.log(snapshot);
@@ -99,18 +103,38 @@ handleDecreaseQuantity= (product) =>{
     if(products[index].qty===0){
         return;
     }
-    products[index].qty-=1;
-    this.setState({
-        products
-    })
+    const docRef=this.db.collection('products').doc(products[index].id);
+    docRef
+      .update({
+        qty: products[index].qty-1
+      })
+      .then(()=>{
+        console.log('updated successfully')
+      })
+      .catch((error)=>{
+        console.log('Error',error);
+      })
+    // products[index].qty-=1;
+    // this.setState({
+    //     products
+    // })
 }
 handleDeleteProduct=(id)=>{
     const{products}=this.state;
     // return another array and the arry will contain products whose id will not be the id at its past
-    const items=products.filter((item)=>item.id!==id)
-    this.setState({
-        products:items
-    })
+    // const items=products.filter((item)=>item.id!==id)
+    // this.setState({
+    //     products:items
+    // })
+    const docRef=this.db.collection('products').doc(id);
+    docRef
+      .delete()
+      .then(()=>{
+        console.log('deleted successfully')
+      })
+      .catch((error)=>{
+        console.log('Error',error);
+      })
 }
 getCartCount=()=>{
   //we will take product from this.state and 
