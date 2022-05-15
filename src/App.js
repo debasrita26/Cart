@@ -1,38 +1,69 @@
 import React from 'react';
 import Cart from './Cart';
 import Navbar from './Navbar';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
 class App extends React.Component{
   constructor(){
     super();
     // added the state
     this.state={
-        products:[
-        {
-            price:999,
-            title: 'Watch',
-            qty:1,
-            img:'https://images.unsplash.com/photo-1547996160-81dfa63595aa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-            id:1
-        },
-        {
-            price:10000,
-            title: 'Mobile Phone',
-            qty:10,
-            img:'https://images.unsplash.com/photo-1605236453806-6ff36851218e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80',
-            id:2
-        },
-        {
-            price:40000,
-            title: 'Laptop',
-            qty:5,
-            img:'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=871&q=80',
-            id:3 
-        }
-    ]
-}
+        products:[],
+        loading: true
+    }
+    this.db=firebase.firestore();
+  }
 
-}
+  componentDidMount(){
+    //Getting the data from fireStore,chaining the methods
+    // firebase
+    //   .firestore()
+    //   .collection('products')
+    //   .get()
+    //   .then((snapshot)=>{
+    //     console.log(snapshot);
+
+    //     //we will access the array of the docs,we will call doc.data to get the data from the doc
+    //     snapshot.docs.map((doc)=>{
+    //       console.log(doc.data());
+    //     });
+    //     //setState here,get the products,
+    //     const products=snapshot.docs.map((doc)=>{
+    //       //doc.data() give the data inside the document
+    //       //define data and provide an id
+    //         const data=doc.data();
+    //         data['id']=doc.id;
+    //         return data;
+    //     })
+
+    //     this.setState({
+    //       products,
+    //       loading:false
+    //     })
+    //   })
+
+    this.db
+      .collection('products')
+      //callback will be fired when onSnapshot will be called
+      .onSnapshot((snapshot)=>{
+            console.log(snapshot);
+            snapshot.docs.map((doc)=>{
+             console.log(doc.data());
+            });
+            const products=snapshot.docs.map((doc)=>{
+            const data=doc.data();
+            data['id']=doc.id;
+            return data;
+            })
+    
+            this.setState({
+              products,
+              loading:false
+            })
+          })
+  }
 //function to handle the increse in quantity of the products and pass product as the parameter
 handleIncreaseQuantity= (product) =>{
     console.log('hey please increse the quantity',product);
@@ -40,10 +71,23 @@ handleIncreaseQuantity= (product) =>{
     const{products}=this.state;
     //get the index of a particular product
     const index=products.indexOf(product);
-    products[index].qty+=1;
-    this.setState({
-        products
-    })
+    //increase the quanity in the firebase...
+    // this.db will get our firestore from the collection,we want the doc which is product and get the ref of the product using the id
+    const docRef=this.db.collection('products').doc(products[index].id);
+    docRef
+      .update({
+        qty: products[index].qty+1
+      })
+      .then(()=>{
+        console.log('updated successfully')
+      })
+      .catch((error)=>{
+        console.log('Error',error);
+      })
+    // products[index].qty+=1;
+    // this.setState({
+    //     products
+    // })
 }
 handleDecreaseQuantity= (product) =>{
     console.log('hey please increse the quantity',product);
@@ -89,17 +133,35 @@ getCartTotal=()=>{
   return cartTotal;
 }
 
+addProduct=()=>{
+  this.db
+    .collection('products')
+    .add({
+        img: 'https://www.lg.com/in/images/washing-machines/md07540724/gallery/FHM1065SDL-Washing-Machines-Front-View-D-01.jpg',
+        price: 900,
+        qty:3,
+        title: 'Washing Machine'
+    })
+    .then((docRef)=>{
+        console.log('product has been added',docRef);
+    })
+    .catch((error)=>{
+      console.log('Error',error);
+    })
+}
    render(){
-     const {products}=this.state;
+     const {products,loading}=this.state;
       return (
        <div className="App">
         <Navbar count={this.getCartCount()} />
+        {/* <button onClick={this.addProduct} style={ {padding: 10,fontSize:20} } >Add a product</button> */}
         <Cart 
           products={products}
           onIncreaseQuantity={this.handleIncreaseQuantity}
           onDecreaseQuantity={this.handleDecreaseQuantity}
           onDeleteProduct={this.handleDeleteProduct}
           />
+          {loading && <h1> Loading Products...</h1>}
           <div style={ {padding: 10, fontSize:20} }>TOTAL: {this.getCartTotal()} </div>
        </div>
       );
